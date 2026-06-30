@@ -61,9 +61,8 @@ const imageLinks = profileConfig.links.filter(l => l.image);
                         ? "btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95"
                         : "btn-regular rounded-lg h-10 w-10 active:scale-90";
 
-                    const href = item.image ? "javascript:void(0)" : item.url;
                     const onclick = item.image
-                        ? `event.preventDefault();document.getElementById('profile-img-modal').querySelector('img').src='${item.image}';document.getElementById('profile-img-modal').classList.remove('hidden');return false;`
+                        ? `document.getElementById('profile-img-modal').querySelector('img').src='${item.image}';document.getElementById('profile-img-modal').classList.remove('hidden')`
                         : "";
 
                     if (!item.image && item.url.startsWith("mailto:")) {
@@ -84,8 +83,13 @@ const imageLinks = profileConfig.links.filter(l => l.image);
                             <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
                             {showName && item.name}
                         </a>
+                    } else if (item.image) {
+                        return <span aria-label={item.name} onclick={onclick} class={className + ' cursor-pointer'} role="button" tabindex="0">
+                            <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
+                            {showName && item.name}
+                        </span>
                     } else {
-                        return <a rel="me" aria-label={item.name} href={href} {item.image ? "" : 'target="_blank"'} onclick={onclick} class={className}>
+                        return <a rel="me" aria-label={item.name} href={item.url} target="_blank" class={className}>
                             <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
                             {showName && item.name}
                         </a>
