@@ -74,12 +74,12 @@ const className = Astro.props.class;
                                         `.replace(/\s+/g, " ").trim()
                                     },
                                     class={className}>
-                            <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
+                            {item.icon.includes(':') ? <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon> : <img src={item.icon} alt={item.name} class="w-6 h-6 object-contain" />}
                             {showName && item.name}
                         </a>
                     } else {
                         return <a rel="me" aria-label={item.name} href={item.url} target="_blank" class={className}>
-                            <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
+                            {item.icon.includes(':') ? <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon> : <img src={item.icon} alt={item.name} class="w-6 h-6 object-contain" />}
                             {showName && item.name}
                         </a>
                     }
