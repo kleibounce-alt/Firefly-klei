@@ -23,8 +23,9 @@ export const profileConfig: ProfileConfig = {
 	links: [
 		{
 			name: "qq",
-			icon: "assets/images/qq-icon.jpg",
-			url: "tencent://message/?uin=3511396958",
+			icon: "fa7-brands:qq",
+			url: "#",
+			image: "assets/images/qq-icon.jpg",
 			showName: false,
 		},
 		{

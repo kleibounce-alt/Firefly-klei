@@ -10,6 +10,8 @@ interface Props {
 }
 const { style } = Astro.props;
 const className = Astro.props.class;
+
+const imageLinks = profileConfig.links.filter(l => l.image);
 ---
 
 <div class:list={["card-base", "p-3", className]} style={style}>
@@ -55,11 +57,16 @@ const className = Astro.props.class;
             {profileConfig.links.length > 1 && profileConfig.links.map(item =>
                     {
                     const showName = item.showName;
-                    const className = showName 
-                        ? "btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95" 
+                    const className = showName
+                        ? "btn-regular rounded-lg h-10 gap-2 px-3 font-bold active:scale-95"
                         : "btn-regular rounded-lg h-10 w-10 active:scale-90";
 
-                    if (item.url.startsWith("mailto:")) {
+                    const href = item.image ? "#" : item.url;
+                    const onclick = item.image
+                        ? `event.preventDefault();document.getElementById('profile-img-modal').querySelector('img').src='${item.image}';document.getElementById('profile-img-modal').classList.remove('hidden');return false;`
+                        : "";
+
+                    if (!item.image && item.url.startsWith("mailto:")) {
                         const encodedEmail = Buffer.from(item.url.replace("mailto:", "")).toString("base64");
                         return <a rel="me" aria-label={item.name} href="#" data-encoded-email={encodedEmail} onclick={`
                                             (function() {
@@ -74,12 +81,12 @@ const className = Astro.props.class;
                                         `.replace(/\s+/g, " ").trim()
                                     },
                                     class={className}>
-                            {item.icon.includes(':') ? <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon> : <img src={item.icon} alt={item.name} class="w-6 h-6 object-contain" />}
+                            <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
                             {showName && item.name}
                         </a>
                     } else {
-                        return <a rel="me" aria-label={item.name} href={item.url} target="_blank" class={className}>
-                            {item.icon.includes(':') ? <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon> : <img src={item.icon} alt={item.name} class="w-6 h-6 object-contain" />}
+                        return <a rel="me" aria-label={item.name} href={href} target={item.image ? "" : "_blank"} onclick={onclick} class={className}>
+                            <Icon is:inline name={item.icon} class="text-[1.5rem]"></Icon>
                             {showName && item.name}
                         </a>
                     }
@@ -115,3 +122,19 @@ const className = Astro.props.class;
         </div>
   </div>
 </div>
+
+<!-- 图片弹窗 -->
+{imageLinks.length > 0 && (
+    <div id="profile-img-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/70" onclick="this.classList.add('hidden')">
+        <div class="relative max-w-[90vw] max-h-[90vh]" onclick="event.stopPropagation()">
+            <img src="" alt="" class="max-w-full max-h-[90vh] rounded-xl shadow-2xl" />
+            <button class="absolute -top-3 -right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center text-black hover:bg-gray-200 transition shadow-lg text-lg leading-none cursor-pointer" onclick="document.getElementById('profile-img-modal').classList.add('hidden')">&times;</button>
+        </div>
+    </div>
+)}
+
+<style>
+    #profile-img-modal img {
+        object-fit: contain;
+    }
+</style>
