@@ -614,7 +614,7 @@ const hasMultipleImages =
     {homeTextEnable && (
         <div class={`banner-home-text-overlay absolute inset-0 z-20 flex items-center justify-center ${!showHomeText ? 'hidden' : ''}`}>
             <div class="w-4/5 lg:w-3/4 text-center mb-0">
-                <div class="flex flex-col">
+                <div class="flex flex-col items-center text-center">
                     {backgroundWallpaper.common?.homeText?.title && (
                         <div class="banner-title font-bold text-white mb-2 lg:mb-4 leading-tight" style={{ '--banner-title-size': backgroundWallpaper.common.homeText.titleSize || "3rem" }}>
                             {backgroundWallpaper.common.homeText.title}
