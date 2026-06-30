@@ -25,7 +25,7 @@ export const profileConfig: ProfileConfig = {
 			name: "qq",
 			icon: "fa7-brands:qq",
 			url: "#",
-			image: "assets/images/qq-icon.jpg",
+			image: "/assets/images/qq-icon.jpg",
 			showName: false,
 		},
 		{
