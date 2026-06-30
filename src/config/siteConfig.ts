@@ -6,7 +6,7 @@ const SITE_LANG = "zh_CN";
 
 export const siteConfig: SiteConfig = {
 	// 站点标题
-	title: "Firefly klei",
+	title: "klei blog",
 
 	// 站点副标题
 	subtitle: "love is a flower, you got to let it grow",
