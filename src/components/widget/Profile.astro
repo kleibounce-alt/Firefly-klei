@@ -51,7 +51,7 @@ const className = Astro.props.class;
     <div class="text-center text-neutral-400 mb-2.5 transition">
       {profileConfig.bio}
     </div>
-        <div class="flex flex-wrap gap-2 justify-center mb-1">
+        <div class="flex flex-wrap gap-2 justify-evenly mb-1">
             {profileConfig.links.length > 1 && profileConfig.links.map(item =>
                     {
                     const showName = item.showName;
