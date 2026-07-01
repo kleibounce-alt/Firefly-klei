@@ -55,6 +55,24 @@ interface BangumiSubject {
 	date?: string;
 }
 
+/** Extract Bangumi subject ID from cycani cover URL (e.g. .../480441_6o9oX.jpg → 480441) */
+function extractBangumiId(coverUrl: string): string | null {
+	const match = coverUrl.match(/\/(\d+)_[^\/]+\.(?:jpg|webp|avif|png)/);
+	return match ? match[1] : null;
+}
+
+async function fetchBangumiById(id: string): Promise<BangumiSubject | null> {
+	try {
+		const resp = await fetch(`https://api.bgm.tv/v0/subjects/${id}`, {
+			headers: { "User-Agent": "FireflyBlog/1.0" },
+		});
+		if (!resp.ok) return null;
+		return await resp.json();
+	} catch {
+		return null;
+	}
+}
+
 async function searchBangumi(title: string): Promise<BangumiSubject | null> {
 	try {
 		const resp = await fetch(`${BANGUMI_SEARCH}?keyword=${encodeURIComponent(title)}&type=2&limit=1`, {
@@ -91,18 +109,26 @@ async function main() {
 	// Enrich with Bangumi data
 	const enriched = [];
 	for (const item of cycaniItems) {
-		console.log(`[Bangumi] Searching: ${item.title}...`);
-		const bgm = await searchBangumi(item.title);
+		console.log(`[Bangumi] Processing: ${item.title}...`);
+
+		// Try direct ID extraction from cover URL first
+		const bgmId = extractBangumiId(item.cover);
+		let bgm: BangumiSubject | null = null;
+		if (bgmId) {
+			bgm = await fetchBangumiById(bgmId);
+			if (bgm) console.log(`  -> Found by ID ${bgmId}: ${bgm.name_cn || bgm.name} | Rating: ${bgm.rating?.score || 0}`);
+		}
+		// Fallback to search
+		if (!bgm) {
+			bgm = await searchBangumi(item.title);
+			if (bgm) console.log(`  -> Found by search: ${bgm.name_cn || bgm.name} | Rating: ${bgm.rating?.score || 0}`);
+		}
+		if (!bgm) console.log(`  -> Not found on Bangumi`);
+
 		const cover = bgm?.images?.large || bgm?.images?.common || item.cover;
 		const rating = bgm?.rating?.score || 0;
 		const summary = bgm?.summary || "";
 		const date = bgm?.date || "";
-
-		if (bgm) {
-			console.log(`  -> Found: ${bgm.name_cn || bgm.name} | Rating: ${rating}`);
-		} else {
-			console.log(`  -> Not found on Bangumi`);
-		}
 
 		enriched.push({
 			id: item.dataId,
