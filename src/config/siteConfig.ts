@@ -12,7 +12,7 @@ export const siteConfig: SiteConfig = {
 	subtitle: "love is a flower, you got to let it grow",
 
 	// 站点 URL
-	site_url: "https://firefly.cuteleaf.cn",
+	site_url: "https://cf.blog-klei2006.xyz",
 
 	// 站点描述
 	description:
