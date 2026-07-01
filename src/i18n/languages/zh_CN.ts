@@ -151,7 +151,7 @@ export const zh_CN: Translation = {
 
 	// 追番
 	[Key.anime]: "追番",
-	[Key.animeSubtitle]: "我的追番列表，数据来自 Bilibili 和 TMDB",
+	[Key.animeSubtitle]: "我的追番列表，数据来自 Cycani（次元城）",
 	[Key.animeTotal]: "总追番",
 	[Key.animeAverageRating]: "平均评分",
 	[Key.animeSearch]: "搜索番剧...",
