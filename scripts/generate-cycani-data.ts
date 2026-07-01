@@ -36,7 +36,9 @@ function parseHtml(html: string): CycaniItem[] {
 		// cover from data-src (preferred) or src
 		const dataSrcMatch = block.match(/data-src="(https:\/\/[^"]*\.(?:jpg|webp|avif|png)[^"]*)"/);
 		const srcMatch = block.match(/src="(https:\/\/[^"]*\.(?:jpg|webp|avif|png)[^"]*)"/);
-		const cover = dataSrcMatch ? dataSrcMatch[1] : (srcMatch ? srcMatch[1] : "");
+		let cover = dataSrcMatch ? dataSrcMatch[1] : (srcMatch ? srcMatch[1] : "");
+		// Decode HTML entities in URL
+		cover = cover.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 
 		// category from ft2 span
 		const catMatch = block.match(/<span[^>]*class="[^"]*ft2[^"]*"[^>]*>([^<]*)<\/span>/);
