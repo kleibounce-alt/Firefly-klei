@@ -3,7 +3,7 @@ import * as path from "node:path";
 
 const HTML_PATH = path.resolve("public/cycani-favs.html");
 const OUTPUT_PATH = path.resolve("public/anime-list.json");
-const BANGUMI_SEARCH = "https://api.bgm.tv/v0/search/subjects";
+const BANGUMI_SEARCH = "https://bgmapi.anibt.net/v0/search/subjects";
 
 interface CycaniItem {
 	title: string;
@@ -63,7 +63,7 @@ function extractBangumiId(coverUrl: string): string | null {
 
 async function fetchBangumiById(id: string): Promise<BangumiSubject | null> {
 	try {
-		const resp = await fetch(`https://api.bgm.tv/v0/subjects/${id}`, {
+		const resp = await fetch(`https://bgmapi.anibt.net/v0/subjects/${id}`, {
 			headers: { "User-Agent": "FireflyBlog/1.0" },
 		});
 		if (!resp.ok) return null;
@@ -85,7 +85,7 @@ async function searchBangumi(title: string): Promise<BangumiSubject | null> {
 
 		// Fetch details for rating
 		const subjectId = subjects[0].id;
-		const detailResp = await fetch(`https://api.bgm.tv/v0/subjects/${subjectId}`, {
+		const detailResp = await fetch(`https://bgmapi.anibt.net/v0/subjects/${subjectId}`, {
 			headers: { "User-Agent": "FireflyBlog/1.0" },
 		});
 		if (!detailResp.ok) return subjects[0];
