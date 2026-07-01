@@ -3,6 +3,7 @@ import * as path from "node:path";
 
 const HTML_PATH = path.resolve("public/cycani-favs.html");
 const OUTPUT_PATH = path.resolve("public/anime-list.json");
+const BANGUMI_SEARCH = "https://api.bgm.tv/v0/search/subjects";
 
 interface CycaniItem {
 	title: string;
@@ -14,33 +15,25 @@ interface CycaniItem {
 
 function parseHtml(html: string): CycaniItem[] {
 	const items: CycaniItem[] = [];
-
-	// Split by public-list-box boundary
 	const blocks = html.split('<div class="public-list-box public-pic-b');
 
 	for (let i = 1; i < blocks.length; i++) {
 		const block = blocks[i];
 
-		// data-id
 		const dataIdMatch = block.match(/data-id="(\d+)"/);
 		const dataId = dataIdMatch ? dataIdMatch[1] : "";
 
-		// href from public-list-exp
 		const hrefMatch = block.match(/class="public-list-exp"\s+href="([^"]+)"/);
 		const href = hrefMatch ? hrefMatch[1] : "";
 
-		// title from img alt
 		const altMatch = block.match(/<img[^>]*alt="([^"]*)"/);
 		const title = altMatch ? altMatch[1] : "";
 
-		// cover from data-src (preferred) or src
 		const dataSrcMatch = block.match(/data-src="(https:\/\/[^"]*\.(?:jpg|webp|avif|png)[^"]*)"/);
 		const srcMatch = block.match(/src="(https:\/\/[^"]*\.(?:jpg|webp|avif|png)[^"]*)"/);
 		let cover = dataSrcMatch ? dataSrcMatch[1] : (srcMatch ? srcMatch[1] : "");
-		// Decode HTML entities in URL
-		cover = cover.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+		cover = cover.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 
-		// category from ft2 span
 		const catMatch = block.match(/<span[^>]*class="[^"]*ft2[^"]*"[^>]*>([^<]*)<\/span>/);
 		const category = catMatch ? catMatch[1].trim() : "";
 
@@ -52,7 +45,39 @@ function parseHtml(html: string): CycaniItem[] {
 	return items;
 }
 
-function main() {
+interface BangumiSubject {
+	id: number;
+	name: string;
+	name_cn: string;
+	images?: { large?: string; common?: string; medium?: string };
+	rating?: { score: number; total: number };
+	summary?: string;
+	date?: string;
+}
+
+async function searchBangumi(title: string): Promise<BangumiSubject | null> {
+	try {
+		const resp = await fetch(`${BANGUMI_SEARCH}?keyword=${encodeURIComponent(title)}&type=2&limit=1`, {
+			headers: { "User-Agent": "FireflyBlog/1.0" },
+		});
+		if (!resp.ok) return null;
+		const data = await resp.json();
+		const subjects = data.data || [];
+		if (subjects.length === 0) return null;
+
+		// Fetch details for rating
+		const subjectId = subjects[0].id;
+		const detailResp = await fetch(`https://api.bgm.tv/v0/subjects/${subjectId}`, {
+			headers: { "User-Agent": "FireflyBlog/1.0" },
+		});
+		if (!detailResp.ok) return subjects[0];
+		return await detailResp.json();
+	} catch {
+		return null;
+	}
+}
+
+async function main() {
 	if (!fs.existsSync(HTML_PATH)) {
 		console.log(`[Cycani] HTML file not found.`);
 		fs.writeFileSync(OUTPUT_PATH, JSON.stringify({ items: [] }, null, 2));
@@ -60,15 +85,43 @@ function main() {
 	}
 
 	const html = fs.readFileSync(HTML_PATH, "utf-8");
-	const items = parseHtml(html);
+	const cycaniItems = parseHtml(html);
+	console.log(`[Cycani] Parsed ${cycaniItems.length} items`);
 
-	console.log(`[Cycani] Parsed ${items.length} items:`);
-	for (const item of items) {
-		console.log(`  - ${item.title} [${item.category}]`);
+	// Enrich with Bangumi data
+	const enriched = [];
+	for (const item of cycaniItems) {
+		console.log(`[Bangumi] Searching: ${item.title}...`);
+		const bgm = await searchBangumi(item.title);
+		const cover = bgm?.images?.large || bgm?.images?.common || item.cover;
+		const rating = bgm?.rating?.score || 0;
+		const summary = bgm?.summary || "";
+		const date = bgm?.date || "";
+
+		if (bgm) {
+			console.log(`  -> Found: ${bgm.name_cn || bgm.name} | Rating: ${rating}`);
+		} else {
+			console.log(`  -> Not found on Bangumi`);
+		}
+
+		enriched.push({
+			id: item.dataId,
+			title: bgm?.name_cn || item.title,
+			originalTitle: bgm?.name || "",
+			poster: cover || null,
+			type: item.category.includes("剧场") ? "movie" : "tv",
+			season_type: item.category.includes("剧场") ? 2 : 1,
+			source: "cycani",
+			rating,
+			date,
+			overview: summary,
+			link: item.link || "",
+			epStatus: null,
+		});
 	}
 
-	fs.writeFileSync(OUTPUT_PATH, JSON.stringify({ items }, null, 2));
-	console.log(`[Cycani] Written to ${OUTPUT_PATH}`);
+	fs.writeFileSync(OUTPUT_PATH, JSON.stringify({ items: enriched }, null, 2));
+	console.log(`[Cycani] Written ${enriched.length} items to ${OUTPUT_PATH}`);
 }
 
 main();

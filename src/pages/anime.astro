@@ -18,38 +18,14 @@ const buildTime = formatDateI18nWithTime(new Date());
 const animeConfig = siteConfig.anime;
 const cycaniBaseUrl = animeConfig?.cycani?.baseUrl || "https://www.cycani.org";
 
-// Category mapping
-const CATEGORY_MAP: Record<string, number> = {
-	"TV番組": 1, "剧场番组": 2, "剧场番組": 2, "OVA": 1, "WEB": 1,
-};
-
-interface CycaniRaw {
-	title: string; cover: string; link: string; category: string; dataId: string;
-}
-
 let animeList: StandardizedAnime[] = [];
 let dataSource = "";
 
-// Try loading cycani data from generated JSON
 const jsonPath = path.resolve("public/anime-list.json");
 if (fs.existsSync(jsonPath)) {
 	try {
 		const raw = JSON.parse(fs.readFileSync(jsonPath, "utf-8"));
-		const items: CycaniRaw[] = raw.items || [];
-		animeList = items.map((item) => ({
-			id: Number.parseInt(item.dataId, 10) || 0,
-			title: item.title,
-			originalTitle: "",
-			poster: item.cover || null,
-			type: (CATEGORY_MAP[item.category] === 2 ? "movie" : "tv") as "tv" | "movie",
-			season_type: CATEGORY_MAP[item.category] || 1,
-			source: "cycani" as const,
-			rating: 0,
-			date: "",
-			overview: "",
-			link: item.link,
-			epStatus: undefined,
-		}));
+		animeList = (raw.items || []) as StandardizedAnime[];
 		dataSource = "Cycani（次元城）";
 	} catch (e) {
 		console.error("[Anime] Failed to parse anime-list.json:", e);

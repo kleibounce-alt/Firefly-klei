@@ -1,11 +1,18 @@
 {
   "items": [
     {
+      "id": "3713899",
       "title": "蓦然回首",
-      "cover": "https://gimg1.baidu.com/gimg/app=2001&src=https%3A%2F%2Fimg2.cycimg.me/pic/cover/l/fa/a8/480441_6o9oX.jpg",
+      "originalTitle": "",
+      "poster": "https://gimg1.baidu.com/gimg/app=2001&src=https%3A%2F%2Fimg2.cycimg.me/pic/cover/l/fa/a8/480441_6o9oX.jpg",
+      "type": "movie",
+      "season_type": 2,
+      "source": "cycani",
+      "rating": 0,
+      "date": "",
+      "overview": "",
       "link": "https://www.cycani.org/bangumi/3822.html",
-      "category": "剧场番组",
-      "dataId": "3713899"
+      "epStatus": null
     }
   ]
 }
