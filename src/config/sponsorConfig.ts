@@ -9,7 +9,7 @@ export const sponsorConfig: SponsorConfig = {
 
 	// 打赏用途说明
 	usage:
-		"您的打赏将用于服务器维护、内容创作和功能开发，帮助我持续提供优质内容。",
+		"打赏将直接支持 Firefly 博客主题的作者（CuteLeaf），用于主题的持续开发和维护。如果你喜欢这个博客的外观和功能，欢迎通过下方渠道支持原作者！本站仅为 Firefly 主题的用户，打赏与本站博主无关。",
 
 	// 是否显示打赏者列表
 	showSponsorsList: true,
