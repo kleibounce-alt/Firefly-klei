@@ -43,27 +43,33 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// 桌面背景图片（支持单张或多张随机）
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
+						"/gallery/firefly-2026/5.avif",
 			"/gallery/firefly-2026/3.avif",
-			"/gallery/firefly-2026/4.avif",
-			"/gallery/firefly-2026/5.avif",
+			"/gallery/firefly-2026/12.avif",
+			"/gallery/firefly-2026/16.webp",
+			"/gallery/firefly-2026/13.avif",
+			"/gallery/firefly-2026/14.avif",
+			"/gallery/firefly-2026/15.avif",
+			"/gallery/firefly-2026/11.avif",
 			"/gallery/firefly-2026/6.avif",
 			"/gallery/firefly-2026/7.avif",
 			"/gallery/firefly-2026/8.avif",
-			"/gallery/firefly-2026/9.avif",
-			"/gallery/firefly-2026/10.avif",
-		],
+			],
 		// 移动背景图片（支持单张或多张随机）
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
 		mobile: [
+						"/gallery/firefly-2026/5.avif",
 			"/gallery/firefly-2026/3.avif",
-			"/gallery/firefly-2026/4.avif",
-			"/gallery/firefly-2026/5.avif",
+			"/gallery/firefly-2026/12.avif",
+			"/gallery/firefly-2026/16.webp",
+			"/gallery/firefly-2026/13.avif",
+			"/gallery/firefly-2026/14.avif",
+			"/gallery/firefly-2026/15.avif",
+			"/gallery/firefly-2026/11.avif",
 			"/gallery/firefly-2026/6.avif",
 			"/gallery/firefly-2026/7.avif",
 			"/gallery/firefly-2026/8.avif",
-			"/gallery/firefly-2026/9.avif",
-			"/gallery/firefly-2026/10.avif",
-		],
+			],
 		// 背景视频播放地址
 		// 支持单个视频路径（字符串）或多个视频循环（数组）
 		// 支持远程视频URL，本地视频请放在 public/assets/videos/ 目录下
