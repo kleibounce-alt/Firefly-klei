@@ -24,8 +24,8 @@ export const getStaticPaths = (async ({ paginate }) => {
 	return paginate(filteredPosts, { pageSize });
 }) satisfies GetStaticPaths;
 
-const { page } = Astro.props;
-const len = page.data.length;
+const page = Astro.props.page;
+const len = page?.data?.length ?? 0;
 ---
 
 <MainGridLayout title={i18n(I18nKey.bangumi)} description={i18n(I18nKey.bangumiSubtitle)}>
@@ -47,10 +47,10 @@ const len = page.data.length;
         </div>
       </div>
 
-      <PostPage page={page} />
+      {page ? <PostPage page={page} /> : <p class="text-neutral-500 text-center py-16">暂无文章</p>}
 
       {
-        page.total > page.size && (
+        page && page.total > page.size && (
           <Pagination
             class="mx-auto onload-animation"
             page={page}
