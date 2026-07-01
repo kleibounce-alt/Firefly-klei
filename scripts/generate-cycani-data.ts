@@ -125,7 +125,7 @@ async function main() {
 		}
 		if (!bgm) console.log(`  -> Not found on Bangumi`);
 
-		const cover = bgm?.images?.large || bgm?.images?.common || item.cover;
+		const cover = item.cover || bgm?.images?.large || bgm?.images?.common || "";
 		const rating = bgm?.rating?.score || 0;
 		const summary = bgm?.summary || "";
 		const date = bgm?.date || "";
