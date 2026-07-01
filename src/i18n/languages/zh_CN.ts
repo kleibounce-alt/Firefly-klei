@@ -86,7 +86,7 @@ export const zh_CN: Translation = {
 	[Key.updatedAt]: "更新于",
 	[Key.readTime]: "阅读时长",
 	[Key.license]: "许可协议",
-	[Key.bangumi]: "番组计划",
+	[Key.bangumi]: "漫谈",
 
 	// 番组计划筛选和状态文本
 	[Key.bangumiTitle]: "我的番组计划",

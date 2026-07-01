@@ -126,13 +126,9 @@ export type SiteConfig = {
 		generateOgImages: boolean;
 	};
 
-	// bangumi配置
+	// 漫谈配置
 	bangumi?: {
-		userId?: string; // Bangumi用户ID
-		mode?: "static" | "dynamic"; // 数据模式：static=构建时获取，dynamic=客户端实时获取
-		apiUrl?: string; // Bangumi API 地址
-		subjectBaseUrl?: string; // 条目详情页地址
-		categoryOrder?: ("anime" | "game" | "book" | "music" | "real")[]; // 条目类型排序顺序
+		category?: string; // 过滤文章的分类名
 	};
 
 	// 追番配置（Cycani 次元城 / Bilibili / TMDB）

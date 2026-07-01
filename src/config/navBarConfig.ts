@@ -51,7 +51,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 			// 追番
 			LinkPresets.Anime,
 
-			// 番组计划
+			// 漫谈
 			LinkPresets.Bangumi,
 		],
 	});
@@ -169,7 +169,7 @@ export const LinkPresets: Record<string, NavBarLink> = {
 		icon: "material-symbols:person",
 	},
 	Bangumi: {
-		name: "番组计划",
+		name: "漫谈",
 		url: "/bangumi/",
 		icon: "material-symbols:movie",
 		pageKey: "bangumi",

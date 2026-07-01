@@ -88,7 +88,7 @@ export const en: Translation = {
 	[Key.updatedAt]: "Updated at",
 	[Key.readTime]: "Read time",
 	[Key.license]: "License",
-	[Key.bangumi]: "Bangumi",
+	[Key.bangumi]: "漫谈",
 
 	// Bangumi Filter and Status Text
 	[Key.bangumiTitle]: "My Bangumi",

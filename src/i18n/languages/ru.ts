@@ -88,7 +88,7 @@ export const ru: Translation = {
 	[Key.updatedAt]: "Обновлено",
 	[Key.readTime]: "Время чтения",
 	[Key.license]: "Лицензия",
-	[Key.bangumi]: "Бангуми",
+	[Key.bangumi]: "漫谈",
 
 	// Фильтр и статус Бангуми текст
 	[Key.bangumiTitle]: "Мой план группы",

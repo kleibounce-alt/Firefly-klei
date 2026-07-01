@@ -86,7 +86,7 @@ export const zh_TW: Translation = {
 	[Key.updatedAt]: "更新於",
 	[Key.readTime]: "閱讀時長",
 	[Key.license]: "許可協議",
-	[Key.bangumi]: "番組計劃",
+	[Key.bangumi]: "漫談",
 
 	// 番組計劃
 	[Key.bangumiTitle]: "我的番組計劃",
