@@ -93,8 +93,8 @@ function getTypeColor(seasonType: number): string {
 		</div>
 
 		<!-- 来源标签 -->
-		<div class="absolute bottom-2 left-2 rounded-md {anime.source === 'bilibili' ? 'bg-pink-500/80' : 'bg-emerald-500/80'} px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
-			{anime.source === 'bilibili' ? 'Bilibili' : 'TMDB'}
+		<div class="absolute bottom-2 left-2 rounded-md {anime.source === 'bilibili' ? 'bg-pink-500/80' : anime.source === 'cycani' ? 'bg-orange-500/80' : 'bg-emerald-500/80'} px-2 py-0.5 text-[10px] font-medium text-white backdrop-blur-sm">
+			{anime.source === 'bilibili' ? 'Bilibili' : anime.source === 'cycani' ? 'Cycani' : 'TMDB'}
 		</div>
 
 		<!-- 悬停遮罩 -->

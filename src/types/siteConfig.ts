@@ -135,8 +135,11 @@ export type SiteConfig = {
 		categoryOrder?: ("anime" | "game" | "book" | "music" | "real")[]; // 条目类型排序顺序
 	};
 
-	// 追番配置（Bilibili + TMDB）
+	// 追番配置（Cycani 次元城 / Bilibili / TMDB）
 	anime?: {
+		cycani?: {
+			baseUrl?: string; // 次元城网址（可选，默认 https://www.cycani.org）
+		};
 		bilibili?: {
 			uid: string; // Bilibili 用户 UID
 		};

@@ -177,20 +177,11 @@ export const siteConfig: SiteConfig = {
 		categoryOrder: ["anime", "book", "music", "game"],
 	},
 
-	// 追番配置（Bilibili + TMDB）
+	// 追番配置（次元城 Cycani）
 	anime: {
-		// Bilibili 配置
-		bilibili: {
-			// 你的 Bilibili 用户 UID
-			uid: "38932988",
+		cycani: {
+			baseUrl: "https://www.cycani.org",
 		},
-		// TMDB 配置（可选，需要翻墙）
-		// tmdb: {
-		//   // TMDB API 密钥
-		//   apiKey: "your_tmdb_api_key",
-		//   // TMDB 列表 ID
-		//   listId: "your_list_id",
-		// },
 	},
 
 	// 分页配置
